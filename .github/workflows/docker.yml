@@ -15,11 +15,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - name: Checkout Code
+        uses: actions/checkout@v2
       
       - name: Build and Push to Docker Hub
-      - uses: mr-smithers-excellent/docker-build-push@v5
-      - with:
+        uses: mr-smithers-excellent/docker-build-push@v5
+        with:
           image: minchae3618/udigo_classification
           registry: docker.io
           username: ${{ secrets.DOCKERHUB_USERNAME }}
