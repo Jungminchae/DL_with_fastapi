@@ -1,3 +1,4 @@
+import os
 import json
 from io import BytesIO
 from PIL import Image
@@ -14,7 +15,10 @@ model_path = "./model/efn_b0_224_na_5-0.43-0.90.h5"
 @app.post("/places/classification")
 async def classification(place: UploadFile = File(...)):
     # 기본 uploads 디렉토리에 사진 저장 & 읽기
-    upload_path = "./uploads/" + place.filename
+    save_dir = "./uploads/"
+    if os.path.exists(save_dir) is False:
+        os.mkdir(save_dir)
+    upload_path = save_dir + place.filename
     image = await place.read()
     with open(upload_path, "wb") as f:
         f.write(image)
@@ -43,4 +47,4 @@ async def classification(place: UploadFile = File(...)):
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, debug=True)
+    uvicorn.run(app, reload=True)
